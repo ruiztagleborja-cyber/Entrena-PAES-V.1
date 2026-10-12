@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="description" content="Práctica PAES Matemática M1 y M2 con ejercicios recomendados según tus errores.">
+<title>Entrena PAES</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=Atkinson+Hyperlegible:wght@400;700&family=JetBrains+Mono:wght@500;700&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.16.9/katex.min.js"></script>
+<style>
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}
+/* Layout: hoja cuadriculada de cuaderno; colores básicos (azul, rojo, amarillo, verde) sobre blanco; tarjetas planas con borde de tinta */
+:root{
+  --bg:#ffffff; --grid:#e6edf7; --surface:#ffffff; --surface-2:#f4f7fb;
+  --ink:#111827; --muted:#4b5563; --line:#c9d3e1;
+  --azul:#1d4ed8; --azul-suave:#dbe6ff; --on-azul:#ffffff;
+  --rojo:#dc2626; --rojo-suave:#fde2e2;
+  --amarillo:#facc15; --amarillo-suave:#fef6c7; --on-amarillo:#111827;
+  --verde:#16a34a; --verde-suave:#dcf5e3;
+  --display:"Bricolage Grotesque", "Arial Black", system-ui, sans-serif;
+  --body:"Atkinson Hyperlegible", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0d1320; --grid:#162036; --surface:#121a2b; --surface-2:#18233a;
+  --ink:#eef2f8; --muted:#a3b0c4; --line:#2c3a55;
+  --azul:#6b93ff; --azul-suave:#1b2a52; --on-azul:#0d1320;
+  --rojo:#f87171; --rojo-suave:#3a1a1f;
+  --amarillo:#facc15; --amarillo-suave:#3a3212; --on-amarillo:#111827;
+  --verde:#4ade80; --verde-suave:#14301f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0d1320; --grid:#162036; --surface:#121a2b; --surface-2:#18233a;
+  --ink:#eef2f8; --muted:#a3b0c4; --line:#2c3a55;
+  --azul:#6b93ff; --azul-suave:#1b2a52; --on-azul:#0d1320;
+  --rojo:#f87171; --rojo-suave:#3a1a1f;
+  --amarillo:#facc15; --amarillo-suave:#3a3212; --on-amarillo:#111827;
+  --verde:#4ade80; --verde-suave:#14301f; color-scheme:dark}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px}
+.wrap{max-width:1100px;margin:0 auto;padding-inline:16px;padding-block:0 48px}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,select:focus-visible{outline:3px solid var(--amarillo);outline-offset:2px}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;line-height:1.15}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+/* Header */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:2px solid var(--ink)}
+.top-in{max-width:1100px;margin:0 auto;padding-inline:16px;padding-block:12px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:22px;letter-spacing:-.01em}
+.logo-mark{display:grid;grid-template-columns:repeat(2,12px);gap:3px}
+.logo-mark i{width:12px;height:12px;display:block}
+.logo-mark i:nth-child(1){background:var(--azul)}.logo-mark i:nth-child(2){background:var(--rojo)}
+.logo-mark i:nth-child(3){background:var(--amarillo)}.logo-mark i:nth-child(4){background:var(--verde)}
+.tabs{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+.tab{background:none;border:0;padding:8px 12px;font-weight:700;border-bottom:4px solid transparent}
+.tab[aria-selected="true"]{border-bottom-color:var(--azul);color:var(--azul)}
+.who{display:flex;align-items:center;gap:8px;min-width:0}
+.who img{width:30px;height:30px;border-radius:50%;border:2px solid var(--ink)}
+.who span{font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:160px}
+
+/* Generic */
+.card{background:var(--surface);border:2px solid var(--ink);padding:20px;min-width:0}
+.card.soft{border:1.5px solid var(--line)}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;gap:8px;border:2px solid var(--ink);background:var(--surface);padding:10px 16px;font-weight:700;line-height:1.2}
+.btn.primary{background:var(--azul);color:var(--on-azul);border-color:var(--azul);box-shadow:4px 4px 0 var(--ink)}
+.btn.primary:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 var(--ink)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.stack{display:flex;flex-direction:column;gap:16px}
+.note{font-size:14px;color:var(--muted)}
+.section{display:flex;flex-direction:column;gap:20px;padding-top:24px}
+.pill{display:inline-block;font-family:var(--mono);font-size:12px;font-weight:700;padding:2px 8px;border:1.5px solid currentColor;white-space:nowrap}
+
+/* Hero */
+.hero{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:16px;align-items:stretch}
+.hero h1{font-size:clamp(30px,5vw,46px);font-weight:800;letter-spacing:-.02em}
+.hero h1 b{color:var(--azul)}
+.stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;border:2px solid var(--ink);background:var(--surface)}
+.stat{padding:14px 16px;border-right:2px solid var(--ink);border-bottom:2px solid var(--ink);min-width:0}
+.stat:nth-child(2n){border-right:0}.stat:nth-child(n+3){border-bottom:0}
+.stat .v{font-family:var(--mono);font-size:28px;font-weight:700;line-height:1.1}
+.stat .l{font-size:13px;color:var(--muted)}
+
+/* Focus */
+.seg{display:inline-flex;border:2px solid var(--ink)}
+.seg button{border:0;background:var(--surface);padding:8px 16px;font-weight:700}
+.seg button+button{border-left:2px solid var(--ink)}
+.seg button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
+.eje-group{display:flex;flex-direction:column;gap:8px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1.5px solid var(--line);background:var(--surface);padding:6px 10px;font-size:14px;line-height:1.3;text-align:left}
+.chip[aria-pressed="true"]{background:var(--azul);color:var(--on-azul);border-color:var(--azul)}
+.chip small{font-family:var(--mono);opacity:.8;margin-left:4px}
+
+/* Diagnóstico */
+.diag-list{display:flex;flex-direction:column;gap:10px;margin:0;padding:0;list-style:none}
+.diag-list li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:center;padding:10px 12px;background:var(--surface-2)}
+.diag-list li .n{font-weight:700;min-width:0}
+.diag-list li .n small{display:block;font-weight:400;color:var(--muted);font-size:13px}
+
+/* Mapa de temas */
+.mapa{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.eje-col{display:flex;flex-direction:column;gap:10px;min-width:0}
+.eje-col h3{font-size:16px;padding-bottom:6px;border-bottom:2px solid var(--ink)}
+.tema{display:flex;flex-direction:column;gap:6px;padding:10px 12px;background:var(--surface);border:1.5px solid var(--line);min-width:0}
+.tema-top{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.tema-top .n{font-size:14px;font-weight:700;min-width:0;overflow-wrap:anywhere}
+.tema-top .p{font-family:var(--mono);font-size:13px;white-space:nowrap}
+.bar{height:10px;background:var(--surface-2);border:1.5px solid var(--ink);position:relative;overflow:hidden}
+.bar i{position:absolute;inset:0 auto 0 0;display:block}
+.lvl-0{background:var(--line)}.lvl-1{background:var(--rojo)}.lvl-2{background:var(--amarillo)}.lvl-3{background:var(--verde)}
+.st-1{color:var(--rojo)}.st-2{color:var(--muted)}.st-3{color:var(--verde)}
+.hist{display:flex;flex-direction:column;gap:6px;margin:0;padding:0;list-style:none}
+.hist li{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:10px;align-items:center;font-size:14px}
+.mark{width:24px;height:24px;display:grid;place-items:center;font-weight:700;font-family:var(--mono);color:#fff}
+.mark.ok{background:var(--verde)}.mark.no{background:var(--rojo)}
+
+/* Práctica */
+.prac-head{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.dots{display:flex;gap:6px;flex-wrap:wrap}
+.dots i{width:18px;height:18px;border:2px solid var(--ink);display:block;background:var(--surface)}
+.dots i.cur{background:var(--amarillo)}.dots i.ok{background:var(--verde)}.dots i.no{background:var(--rojo)}
+.ex{background:var(--surface);border:2px solid var(--ink);box-shadow:6px 6px 0 var(--azul);padding:24px;display:flex;flex-direction:column;gap:18px;min-width:0}
+.ex-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.ex-meta .tag{background:var(--ink);color:var(--bg);font-family:var(--mono);font-size:12px;font-weight:700;padding:3px 8px}
+.ex-meta .t{font-weight:700;font-size:14px}
+.dif{font-family:var(--mono);font-size:13px;color:var(--muted);margin-left:auto}
+.why{font-size:14px;padding:8px 12px;background:var(--amarillo-suave);border-left:4px solid var(--amarillo)}
+.ex-q{font-size:19px;line-height:1.6;overflow-x:auto;max-width:65ch}
+.alts{display:grid;gap:10px}
+.perfil-form{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.perfil-form input{font:inherit;color:var(--ink);background:var(--surface);border:2px solid var(--ink);padding:6px 10px;min-width:0;width:170px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.fig{margin:0;padding:12px;background:#ffffff;border:1.5px solid var(--line);max-width:640px;overflow-x:auto}
+.fig img{display:block;max-width:100%;height:auto;margin:0 auto}
+.bank-item .fig-tag{font-family:var(--mono);font-size:11px;border:1.5px solid var(--line);padding:1px 6px;margin-left:6px}
+.alt{display:grid;grid-template-columns:36px minmax(0,1fr);gap:12px;align-items:center;text-align:left;border:2px solid var(--line);background:var(--surface);padding:10px 12px;min-height:52px}
+.alt:hover:not(:disabled){border-color:var(--azul)}
+.alt .k{width:32px;height:32px;display:grid;place-items:center;border:2px solid var(--ink);font-family:var(--mono);font-weight:700}
+.alt .tx{min-width:0;overflow-x:auto;font-size:17px}
+.alt.ok{border-color:var(--verde);background:var(--verde-suave)}.alt.ok .k{background:var(--verde);color:#fff;border-color:var(--verde)}
+.alt.no{border-color:var(--rojo);background:var(--rojo-suave)}.alt.no .k{background:var(--rojo);color:#fff;border-color:var(--rojo)}
+.alt:disabled{cursor:default}
+.fb{padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.fb.ok{background:var(--verde-suave);border-left:6px solid var(--verde)}
+.fb.no{background:var(--rojo-suave);border-left:6px solid var(--rojo)}
+.fb strong{font-family:var(--display);font-size:18px}
+.fb .sol{overflow-x:auto}
+.end{text-align:center;display:flex;flex-direction:column;gap:14px;align-items:center;padding:32px 20px}
+.end .big{font-family:var(--mono);font-size:56px;font-weight:700;line-height:1}
+
+/* Banco */
+.filters{display:flex;gap:12px;flex-wrap:wrap;align-items:end}
+.filters label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--muted);min-width:0}
+select{font:inherit;color:var(--ink);background:var(--surface);border:2px solid var(--ink);padding:8px 10px;max-width:100%}
+.bank{display:flex;flex-direction:column;gap:10px}
+.bank-item{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;background:var(--surface);border:1.5px solid var(--line);padding:14px 16px}
+.bank-item .q{min-width:0;overflow:hidden}
+.bank-item .q .tx{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:4px}
+.bank-item .side{display:flex;gap:10px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+
+.empty{border:2px dashed var(--line);padding:28px;text-align:center;color:var(--muted);background:var(--surface)}
+.empty b{display:block;color:var(--ink);font-family:var(--display);font-size:20px;margin-bottom:6px}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;font-weight:700;z-index:20;max-width:calc(100% - 32px)}
+math{font-size:1.05em}
+
+@media (max-width:720px){
+  .hero{grid-template-columns:minmax(0,1fr)}
+  .tabs{margin-left:0;width:100%}
+  .ex{padding:16px;box-shadow:4px 4px 0 var(--azul)}
+  .bank-item{grid-template-columns:minmax(0,1fr)}
+  .bank-item .side{justify-content:flex-start}
+  .dif{margin-left:0}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+
+</head>
+<body>
+<header class="top">
+  <div class="top-in">
+    <div class="logo"><span class="logo-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Entrena PAES</div>
+    <div class="who" id="who"></div>
+    <nav class="tabs" role="tablist">
+      <button class="tab" role="tab" data-act="tab" data-tab="panel" aria-selected="true">Mi panel</button>
+      <button class="tab" role="tab" data-act="tab" data-tab="practica" aria-selected="false">Práctica</button>
+      <button class="tab" role="tab" data-act="tab" data-tab="banco" aria-selected="false">Banco de ejercicios</button>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <section class="section" id="v-panel"></section>
+  <section class="section" id="v-practica" hidden></section>
+  <section class="section" id="v-banco" hidden></section>
+</main>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+const TEMAS = [
+  {id:'n1',p:'M1',eje:'Números',nom:'Enteros y racionales'},
+  {id:'n2',p:'M1',eje:'Números',nom:'Porcentaje'},
+  {id:'n3',p:'M1',eje:'Números',nom:'Potencias y raíces'},
+  {id:'a1',p:'M1',eje:'Álgebra y funciones',nom:'Expresiones algebraicas'},
+  {id:'a2',p:'M1',eje:'Álgebra y funciones',nom:'Proporcionalidad'},
+  {id:'a3',p:'M1',eje:'Álgebra y funciones',nom:'Ecuaciones e inecuaciones lineales'},
+  {id:'a4',p:'M1',eje:'Álgebra y funciones',nom:'Sistemas de ecuaciones'},
+  {id:'a5',p:'M1',eje:'Álgebra y funciones',nom:'Función lineal y afín'},
+  {id:'a6',p:'M1',eje:'Álgebra y funciones',nom:'Función cuadrática'},
+  {id:'g1',p:'M1',eje:'Geometría',nom:'Teorema de Pitágoras'},
+  {id:'g2',p:'M1',eje:'Geometría',nom:'Perímetro, área y volumen'},
+  {id:'g3',p:'M1',eje:'Geometría',nom:'Transformaciones isométricas'},
+  {id:'g4',p:'M1',eje:'Geometría',nom:'Semejanza'},
+  {id:'p1',p:'M1',eje:'Probabilidad y estadística',nom:'Tablas y gráficos'},
+  {id:'p2',p:'M1',eje:'Probabilidad y estadística',nom:'Tendencia central y posición'},
+  {id:'p3',p:'M1',eje:'Probabilidad y estadística',nom:'Reglas de probabilidad'},
+  {id:'n4',p:'M2',eje:'Números',nom:'Números reales'},
+  {id:'n5',p:'M2',eje:'Números',nom:'Matemática financiera'},
+  {id:'n6',p:'M2',eje:'Números',nom:'Logaritmos'},
+  {id:'a8',p:'M2',eje:'Álgebra y funciones',nom:'Exponencial, logarítmica y potencia'},
+  {id:'g5',p:'M2',eje:'Geometría',nom:'Homotecia'},
+  {id:'g6',p:'M2',eje:'Geometría',nom:'Razones trigonométricas'},
+  {id:'g7',p:'M2',eje:'Geometría',nom:'Circunferencia: ángulos y segmentos'},
+  {id:'g8',p:'M2',eje:'Geometría',nom:'Recta y plano cartesiano'},
+  {id:'g9',p:'M2',eje:'Geometría',nom:'Cuerpos geométricos'},
+  {id:'p4',p:'M2',eje:'Probabilidad y estadística',nom:'Medidas de dispersión'},
+  {id:'p5',p:'M2',eje:'Probabilidad y estadística',nom:'Probabilidad condicional'},
+  {id:'p6',p:'M2',eje:'Probabilidad y estadística',nom:'Combinatoria'},
+  {id:'p7',p:'M2',eje:'Probabilidad y estadística',nom:'Binomial y normal'},
+];
+const EJES = ['Números','Álgebra y funciones','Geometría','Probabilidad y estadística'];
+const TEMA = Object.fromEntries(TEMAS.map(t=>[t.id,t]));
+const LETRAS = ['A','B','C','D','E'];
+const LS_PERFILES = 'entrena-paes-perfiles-v1';
+function leerPerfiles(){ try{ const r=JSON.parse(localStorage.getItem(LS_PERFILES)||'null'); if(r&&Array.isArray(r.lista)) return r; }catch(e){} return {actual:null, lista:[]}; }
+function guardarPerfiles(){ try{ localStorage.setItem(LS_PERFILES, JSON.stringify(perfiles)); }catch(e){} }
+let perfiles = leerPerfiles();
+const keyProg = () => 'entrena-paes-progreso-'+(perfiles.actual||'invitado');
+
+const nuevoProg = () => ({v:1, stats:{}, ej:{}, hist:[], focus:{p:'M1', temas:[]}});
+let prog = cargarLocal() || nuevoProg();
+let ejercicios = [];
+let cargandoEj = true;
+let tab = 'panel';
+let sesion = null;
+let filtro = {p:'todas', t:'todos', g:'todas'};
+function listaBanco(){
+  const l=ejercicios.filter(e=>(filtro.p==='todas'||(TEMA[e.tema]?.p||e.prueba)===filtro.p)&&(filtro.t==='todos'||e.tema===filtro.t)&&(filtro.g==='todas'||(e.guia||'Ejemplos de Claude')===filtro.g));
+  return l.sort((a,b)=>TEMAS.findIndex(t=>t.id===a.tema)-TEMAS.findIndex(t=>t.id===b.tema)||(a.dificultad||2)-(b.dificultad||2));
+}
+let perfil = {name: (perfiles.lista.find(p=>p.id===perfiles.actual)||{}).nombre || ''};
+let editandoPerfil = false;
+
+const $ = s => document.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function mathml(m){ try{ if(window.katex) return katex.renderToString(m,{output:'mathml',throwOnError:false}); }catch(e){} return '<code>'+esc(m)+'</code>'; }
+function tex(s){
+  const P='\u0007';
+  return String(s ?? '').replace(/\\\$/g,P).split(/\$([^$]+)\$/)
+    .map((p,i)=> i%2 ? mathml(p.split(P).join('\\$')) : esc(p.split(P).join('$')).replace(/\n/g,'<br>')).join('');
+}
+function figSrc(e){
+  if(typeof e.imagen==='string' && (/^img\/[\w.-]+\.png$/.test(e.imagen) || e.imagen.startsWith('data:image/'))) return e.imagen;
+  return '';
+}
+function figura(e){ const s=figSrc(e); return s ? `<figure class="fig"><img src="${esc(s)}" alt="Figura del ejercicio" loading="lazy"></figure>` : ''; }
+async function figDataUrl(e){
+  const s=figSrc(e); if(!s) return ''; if(s.startsWith('data:')) return s;
+  try{ const b=await (await fetch(s)).blob(); return await new Promise(r=>{const f=new FileReader(); f.onload=()=>r(f.result); f.onerror=()=>r(''); f.readAsDataURL(b);}); }catch(err){ return ''; }
+}
+const pct = s => s && s.a ? Math.round(100*s.c/s.a) : 0;
+const st = id => prog.stats[id] || {a:0,c:0};
+const mastery = id => { const s=st(id); return (s.c+1)/(s.a+2); };
+function nivel(s){ if(!s.a) return 0; const p=s.c/s.a; return p<0.45?1:p<0.75?2:3; }
+function hash(str){ let h=2166136261; for(const ch of str){ h^=ch.charCodeAt(0); h=Math.imul(h,16777619);} return h>>>0; }
+
+function cargarLocal(){ try{ const r=localStorage.getItem(keyProg()); return r?Object.assign(nuevoProg(),JSON.parse(r)):null; }catch(e){ return null; } }
+function guardarLocal(){ try{ localStorage.setItem(keyProg(), JSON.stringify(prog)); }catch(e){} }
+
+function guardar(){ guardarLocal(); }
+let toastT;
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.hidden=false; clearTimeout(toastT); toastT=setTimeout(()=>t.hidden=true,2600); }
+
+function pruebasFoco(){ return prog.focus.p==='Ambas'?['M1','M2']:[prog.focus.p]; }
+function temasFoco(){
+  const ps=pruebasFoco(); let t=TEMAS.filter(x=>ps.includes(x.p));
+  const sel=prog.focus.temas.filter(id=>t.some(x=>x.id===id));
+  return sel.length ? t.filter(x=>sel.includes(x.id)) : t;
+}
+function cuentaPorTema(){ const c={}; for(const e of ejercicios) c[e.tema]=(c[e.tema]||0)+1; return c; }
+
+function recomendar(n=10){
+  const ids=new Set(temasFoco().map(t=>t.id));
+  const pool=ejercicios.filter(e=>ids.has(e.tema));
+  const scored=pool.map(e=>{
+    const s=st(e.tema), m=mastery(e.tema), h=prog.ej[e.id];
+    let score=(1-m)*3, razon = s.a<3 ? 'Tema que aún casi no has practicado' : `Tema con ${pct(s)}% de aciertos`;
+    if(s.a<3) score+=0.8;
+    if(h){ if(!h.ok){ score+=1.5; razon='Lo fallaste la última vez: vuelve a intentarlo'; } else score-=2+0.3*h.n; }
+    else score+=0.6;
+    const target = m<0.45?1:m<0.7?2:3;
+    score -= Math.abs((e.dificultad||2)-target)*0.4;
+    score += Math.random()*0.5;
+    return {e,score,razon};
+  }).sort((a,b)=>b.score-a.score);
+  const out=[], per={};
+  for(const x of scored){ if(out.length>=n) break; if((per[x.e.tema]||0)>=3) continue; per[x.e.tema]=(per[x.e.tema]||0)+1; out.push(x); }
+  for(const x of scored){ if(out.length>=n) break; if(!out.includes(x)) out.push(x); }
+  return out;
+}
+
+function ordenAlts(e){
+  const n=(e.alternativas||[]).length, seed=(prog.ej[e.id]?.n||0);
+  return [...Array(n).keys()].sort((a,b)=>hash(e.id+':'+a+':'+seed)-hash(e.id+':'+b+':'+seed));
+}
+
+/* ---------- Render ---------- */
+function renderWho(){
+  const w=$('#who');
+  if(editandoPerfil || !perfiles.actual){
+    const opts=perfiles.lista.map(p=>`<option value="${esc(p.id)}" ${p.id===perfiles.actual?'selected':''}>${esc(p.nombre)}</option>`).join('');
+    w.innerHTML=`<form id="f-perfil" class="perfil-form">
+      ${perfiles.lista.length?`<label for="sel-perfil" class="sr">Elegir persona</label><select id="sel-perfil"><option value="">Elegir persona…</option>${opts}</select><span class="note">o</span>`:''}
+      <label for="nuevo-perfil" class="sr">Tu nombre</label><input id="nuevo-perfil" type="text" maxlength="40" placeholder="${perfiles.lista.length?'Nueva persona':'Escribe tu nombre'}" autocomplete="off">
+      <button class="btn" type="submit" style="padding:6px 12px">Entrar</button>
+      ${perfiles.actual?'<button class="btn" type="button" data-act="cancelar-perfil" style="padding:6px 12px">Cancelar</button>':''}
+    </form>`;
+    return;
+  }
+  w.innerHTML = `<div style="min-width:0;display:flex;flex-direction:column;line-height:1.2"><span>${esc(perfil.name)}</span><small class="note" style="font-size:12px">Guardado en este dispositivo</small></div><button class="btn" data-act="cambiar-perfil" style="padding:4px 10px;font-size:13px">Cambiar</button>`;
+}
+function entrarPerfil(id){
+  perfiles.actual=id; guardarPerfiles();
+  perfil={name:(perfiles.lista.find(p=>p.id===id)||{}).nombre||''};
+  prog=cargarLocal()||nuevoProg(); sesion=null; editandoPerfil=false; renderAll();
+}
+
+function renderPanel(){
+  const total=Object.values(prog.stats).reduce((a,s)=>a+s.a,0);
+  const agg=p=>{ const r={a:0,c:0}; for(const t of TEMAS) if(t.p===p){ const s=st(t.id); r.a+=s.a; r.c+=s.c; } return r; };
+  const m1=agg('M1'), m2=agg('M2');
+  const ult=prog.hist.slice(0,20); const ultP= ult.length? Math.round(100*ult.filter(h=>h.ok).length/ult.length):0;
+  const nombre = perfil.name ? perfil.name.split(' ')[0] : '';
+  const cuenta=cuentaPorTema();
+
+  const ps=pruebasFoco();
+  const chipsHtml = EJES.map(eje=>{
+    const ts=TEMAS.filter(t=>ps.includes(t.p)&&t.eje===eje); if(!ts.length) return '';
+    return `<div class="eje-group"><div class="eyebrow">${esc(eje)}</div><div class="chips">${ts.map(t=>
+      `<button class="chip" data-act="tema" data-t="${t.id}" aria-pressed="${prog.focus.temas.includes(t.id)}">${esc(t.nom)}<small>${ps.length>1?t.p+' · ':''}${cuenta[t.id]||0}</small></button>`).join('')}</div></div>`;
+  }).join('');
+
+  const practicados=TEMAS.filter(t=>st(t.id).a>=2);
+  const debiles=[...practicados].sort((a,b)=>mastery(a.id)-mastery(b.id)).filter(t=>pct(st(t.id))<75).slice(0,4);
+  const fuertes=[...practicados].filter(t=>st(t.id).a>=3).sort((a,b)=>mastery(b.id)-mastery(a.id)).filter(t=>pct(st(t.id))>=60).slice(0,4);
+  const li=(t,cls)=>{ const s=st(t.id); return `<li><span class="n">${esc(t.nom)}<small>${t.p} · ${esc(t.eje)}</small></span><span class="pill ${cls}">${pct(s)}% · ${s.c}/${s.a}</span></li>`; };
+  const vacio='<p class="note" style="margin:0">Responde algunos ejercicios y aquí aparecerá tu diagnóstico.</p>';
+
+  const mapa=['M1','M2'].map(p=>`<div class="stack" style="gap:12px"><h2 style="font-size:22px">${p==='M1'?'Competencia Matemática 1 (M1)':'Competencia Matemática 2 (M2)'}</h2><div class="mapa">${
+    EJES.map(eje=>{ const ts=TEMAS.filter(t=>t.p===p&&t.eje===eje); if(!ts.length) return '';
+      return `<div class="eje-col"><h3>${esc(eje)}</h3>${ts.map(t=>{ const s=st(t.id), lv=nivel(s), w=s.a?Math.max(4,pct(s)):0;
+        const estado = !s.a?'Sin practicar':lv===1?'A reforzar':lv===2?'En progreso':'Dominado';
+        return `<div class="tema"><div class="tema-top"><span class="n">${esc(t.nom)}</span><span class="p">${s.a?pct(s)+'%':'—'}</span></div>
+        <div class="bar" role="img" aria-label="${pct(s)}% de aciertos"><i class="lvl-${lv}" style="width:${w}%"></i></div>
+        <div class="tema-top"><span class="note" style="font-size:12px">${estado}</span><span class="note mono" style="font-size:12px">${s.c}/${s.a} · ${cuenta[t.id]||0} en banco</span></div></div>`; }).join('')}</div>`; }).join('')
+  }</div></div>`).join('');
+
+  const hist=prog.hist.slice(0,8).map(h=>{ const t=TEMA[h.t]; const d=new Date(h.ts);
+    return `<li><span class="mark ${h.ok?'ok':'no'}" aria-label="${h.ok?'Correcta':'Incorrecta'}">${h.ok?'✓':'✗'}</span><span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${esc(t?t.nom:h.t)}</span><span class="note mono" style="font-size:12px">${d.toLocaleDateString('es-CL',{day:'2-digit',month:'short'})}</span></li>`; }).join('');
+
+  $('#v-panel').innerHTML = `
+  <div class="hero">
+    <div class="card" style="display:flex;flex-direction:column;gap:12px;justify-content:center">
+      <span class="eyebrow">Preparación PAES · Admisión 2027</span>
+      <h1>${nombre?`Hola, <b>${esc(nombre)}</b>.`:'Tu mapa de la <b>PAES</b>.'}</h1>
+      <p style="margin:0;max-width:52ch">Elige qué temas quieres entrenar. Te armo una sesión con los ejercicios del banco que más te sirven según lo que vas fallando.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><div class="v">${m1.a?pct(m1)+'%':'—'}</div><div class="l">Aciertos M1 · ${m1.a} resp.</div></div>
+      <div class="stat"><div class="v">${m2.a?pct(m2)+'%':'—'}</div><div class="l">Aciertos M2 · ${m2.a} resp.</div></div>
+      <div class="stat"><div class="v">${total}</div><div class="l">Ejercicios respondidos</div></div>
+      <div class="stat"><div class="v">${ult.length?ultP+'%':'—'}</div><div class="l">Últimos ${ult.length||20}</div></div>
+    </div>
+  </div>
+
+  <div class="card stack">
+    <div class="row" style="justify-content:space-between">
+      <h2 style="font-size:22px">¿Qué quieres entrenar hoy?</h2>
+      <div class="seg" role="group" aria-label="Prueba">
+        ${['M1','M2','Ambas'].map(p=>`<button data-act="prueba" data-p="${p}" aria-pressed="${prog.focus.p===p}">${p}</button>`).join('')}
+      </div>
+    </div>
+    ${chipsHtml}
+    <p class="note" style="margin:0">${prog.focus.temas.length?`${temasFoco().length} tema(s) marcados. <button class="btn" style="padding:2px 8px;font-size:13px;border-width:1.5px" data-act="limpiar">Quitar selección</button>`:'Sin temas marcados entrenas todo el temario de la prueba elegida.'}</p>
+    <div class="row">
+      <button class="btn primary" data-act="empezar" ${ejercicios.length?'':'disabled'}>Empezar sesión recomendada (10)</button>
+      <button class="btn" data-act="descargar" ${ejercicios.length?'':'disabled'}>Descargar guía para imprimir</button>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card soft stack" style="gap:12px"><h2 style="font-size:20px"><span class="st-1">●</span> A reforzar</h2>${debiles.length?`<ul class="diag-list">${debiles.map(t=>li(t,'st-1')).join('')}</ul>`:vacio}</div>
+    <div class="card soft stack" style="gap:12px"><h2 style="font-size:20px"><span class="st-3">●</span> Donde vas mejor</h2>${fuertes.length?`<ul class="diag-list">${fuertes.map(t=>li(t,'st-3')).join('')}</ul>`:vacio}</div>
+  </div>
+
+  ${mapa}
+
+  <div class="card soft stack" style="gap:12px"><h2 style="font-size:20px">Últimas respuestas</h2>${hist?`<ul class="hist">${hist}</ul>`:'<p class="note" style="margin:0">Aún no respondes ejercicios.</p>'}</div>`;
+}
+
+function renderPractica(){
+  const v=$('#v-practica');
+  if(!sesion){
+    v.innerHTML = ejercicios.length ? `<div class="empty"><b>No hay una sesión en curso</b>Arma una desde tu panel o elige un ejercicio del banco.<div style="margin-top:14px"><button class="btn primary" data-act="empezar">Empezar sesión recomendada</button></div></div>` : emptyBank();
+    return;
+  }
+  const {cola,i,resp}=sesion;
+  const dots=cola.map((x,k)=>{ const r=resp[k]; const c= r===undefined ? (k===i?'cur':'') : (r.ok?'ok':'no'); return `<i class="${c}" title="Ejercicio ${k+1}"></i>`; }).join('');
+  if(i>=cola.length){
+    const ok=Object.values(resp).filter(r=>r.ok).length;
+    const fallidos=[...new Set(cola.filter((x,k)=>resp[k]&&!resp[k].ok).map(x=>x.e.tema))].map(t=>TEMA[t]?.nom).filter(Boolean);
+    v.innerHTML=`<div class="prac-head"><h2>Sesión terminada</h2><div class="dots">${dots}</div></div>
+    <div class="card end"><div class="big">${ok}/${cola.length}</div><p style="margin:0;max-width:52ch">${fallidos.length?'Te conviene repasar: '+esc(fallidos.join(', '))+'.':'Respondiste todo bien. Sube la dificultad marcando temas nuevos.'}</p>
+    <div class="row" style="justify-content:center"><button class="btn primary" data-act="empezar">Otra sesión recomendada</button><button class="btn" data-act="tab" data-tab="panel">Ver mi panel</button></div></div>`;
+    return;
+  }
+  const {e,razon}=cola[i], t=TEMA[e.tema]||{nom:e.tema,p:e.prueba,eje:''};
+  const r=resp[i], orden=sesion.orden[i];
+  const alts=orden.map((orig,pos)=>{
+    let cls=''; if(r){ if(orig===e.correcta) cls='ok'; else if(orig===r.elegida) cls='no'; }
+    return `<button class="alt ${cls}" data-act="alt" data-o="${orig}" ${r?'disabled':''}><span class="k">${LETRAS[pos]}</span><span class="tx">${tex(e.alternativas[orig])}</span></button>`;
+  }).join('');
+  const letraOk=LETRAS[orden.indexOf(e.correcta)];
+  v.innerHTML=`<div class="prac-head"><div><span class="eyebrow">Ejercicio ${i+1} de ${cola.length}</span></div><div class="dots">${dots}</div></div>
+  <article class="ex">
+    <div class="ex-meta"><span class="tag">${esc(e.prueba||t.p)}</span><span class="t">${esc(t.nom)}</span><span class="dif" title="Dificultad">${'●'.repeat(e.dificultad||2)}${'○'.repeat(3-(e.dificultad||2))}</span></div>
+    ${razon?`<div class="why">${esc(razon)}</div>`:''}
+    <div class="ex-q">${tex(e.enunciado)}</div>
+    ${figura(e)}
+    <div class="alts">${alts}</div>
+    ${r?`<div class="fb ${r.ok?'ok':'no'}"><strong>${r.ok?'¡Correcta!':'Incorrecta. La respuesta es '+letraOk+'.'}</strong>${e.solucion?`<div class="sol">${tex(e.solucion)}</div>`:''}${e.fuente?`<span class="note">Fuente: ${esc(e.fuente)}</span>`:''}</div>
+    <div class="row"><button class="btn primary" data-act="sig">${i+1<cola.length?'Siguiente ejercicio':'Ver resultado'}</button></div>`:''}
+  </article>`;
+}
+
+function emptyBank(){
+  return cargandoEj ? `<div class="empty"><b>Cargando ejercicios…</b>Un momento.</div>` :
+  `<div class="empty"><b>El banco de ejercicios está vacío</b>No se pudo cargar el banco de ejercicios. Revisa tu conexión y recarga la página.</div>`;
+}
+
+function renderBanco(){
+  const v=$('#v-banco');
+  if(!ejercicios.length){ v.innerHTML=`<h2>Banco de ejercicios</h2>${emptyBank()}`; return; }
+  const temasOpt=TEMAS.filter(t=>filtro.p==='todas'||t.p===filtro.p);
+  const guias=[...new Set(ejercicios.map(e=>e.guia||'Ejemplos de Claude'))].sort();
+  let lista=listaBanco();
+  lista.sort((a,b)=>TEMAS.findIndex(t=>t.id===a.tema)-TEMAS.findIndex(t=>t.id===b.tema)||(a.dificultad||2)-(b.dificultad||2));
+  v.innerHTML=`<div class="row" style="justify-content:space-between"><h2>Banco de ejercicios</h2><span class="note mono">${lista.length} de ${ejercicios.length}</span></div>
+  <div class="filters">
+    <label for="f-p">Prueba<select id="f-p">${['todas','M1','M2'].map(p=>`<option value="${p}" ${filtro.p===p?'selected':''}>${p==='todas'?'Todas':p}</option>`).join('')}</select></label>
+    <label for="f-g" style="min-width:0">Guía<select id="f-g"><option value="todas">Todas las guías</option>${guias.map(g=>`<option value="${esc(g)}" ${filtro.g===g?'selected':''}>${esc(g)}</option>`).join('')}</select></label>
+    <label for="f-t" style="flex:1;min-width:200px">Tema<select id="f-t"><option value="todos">Todos los temas</option>${temasOpt.map(t=>`<option value="${t.id}" ${filtro.t===t.id?'selected':''}>${t.p} · ${esc(t.nom)}</option>`).join('')}</select></label>
+    <button class="btn" data-act="descargar-banco" ${lista.length?'':'disabled'}>Descargar esta lista</button>
+  </div>
+  <div class="bank">${lista.length?lista.map(e=>{ const t=TEMA[e.tema]; const h=prog.ej[e.id];
+    const estado=!h?'<span class="pill st-2">Nuevo</span>':h.ok?'<span class="pill st-3">✓ Correcta</span>':'<span class="pill st-1">✗ Fallada</span>';
+    return `<div class="bank-item"><div class="q"><span class="eyebrow">${esc(t?t.p+' · '+t.nom:e.tema)} · ${'●'.repeat(e.dificultad||2)}</span>${figSrc(e)?'<span class="fig-tag">con figura</span>':''}<div class="note" style="font-size:12px">${esc(e.guia||'Ejemplos de Claude')}</div><div class="tx">${tex(e.enunciado)}</div></div>
+    <div class="side">${estado}<button class="btn" data-act="uno" data-id="${esc(e.id)}">Resolver</button></div></div>`; }).join(''):'<div class="empty">No hay ejercicios de este tema todavía.</div>'}</div>`;
+}
+
+function renderAll(){ renderWho(); if(tab==='panel') renderPanel(); if(tab==='practica') renderPractica(); if(tab==='banco') renderBanco(); }
+function irA(t){ tab=t; document.querySelectorAll('.tab').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===t)); ['panel','practica','banco'].forEach(x=>$('#v-'+x).hidden=x!==t); renderAll(); window.scrollTo({top:0}); }
+
+function nuevaSesion(cola){ sesion={cola, i:0, resp:{}, orden:cola.map(x=>ordenAlts(x.e))}; irA('practica'); }
+
+/* ---------- Guía descargable ---------- */
+function guiaHTML(items, titulo, figs=[]){
+  const fecha=new Date().toLocaleDateString('es-CL',{day:'numeric',month:'long',year:'numeric'});
+  const ejs=items.map((e,k)=>{ const t=TEMA[e.tema];
+    return `<div class="e"><div class="h"><b>${k+1}.</b> <span>${esc(t?t.p+' · '+t.nom:'')}</span></div><div class="q">${tex(e.enunciado)}</div>${figs[k]?`<img class="f" src="${esc(figs[k])}" alt="">`:''}
+    <ol type="A">${e.alternativas.map(a=>`<li>${tex(a)}</li>`).join('')}</ol><div class="w"></div></div>`; }).join('');
+  const pauta=items.map((e,k)=>`<tr><td>${k+1}</td><td><b>${LETRAS[e.correcta]}</b></td><td>${tex(e.solucion||'')}</td></tr>`).join('');
+  return `<!doctype html><html lang="es"><head><meta charset="utf-8"><title>${esc(titulo)}</title><style>
+  body{font-family:Arial,Helvetica,sans-serif;color:#111;max-width:760px;margin:24px auto;padding:0 16px;line-height:1.5}
+  h1{color:#1d4ed8;border-bottom:3px solid #1d4ed8;padding-bottom:6px;margin-bottom:4px}
+  .sub{color:#444;margin:0 0 20px}.e{border:1.5px solid #1d4ed8;padding:12px 14px;margin:0 0 14px;break-inside:avoid}
+  .h{color:#1d4ed8;font-size:13px;margin-bottom:6px}img.f{display:block;max-width:100%;max-height:320px;margin:6px 0}.q{font-size:16px;margin-bottom:6px}ol{margin:6px 0 0;padding-left:28px}li{margin:3px 0}
+  .w{height:70px;border-top:1px dashed #9ca3af;margin-top:10px}h2{color:#dc2626;break-before:page}
+  table{border-collapse:collapse;width:100%}td{border:1px solid #c9d3e1;padding:6px 8px;vertical-align:top;font-size:14px}
+  td:first-child,td:nth-child(2){width:40px;text-align:center}
+  </style></head><body><h1>${esc(titulo)}</h1><p class="sub">${esc(perfil.name||'')} · ${fecha} · ${items.length} ejercicios</p>${ejs}
+  <h2>Pauta y soluciones</h2><table>${pauta}</table></body></html>`;
+}
+async function descargar(items, titulo){
+  if(!items.length) return;
+  toast('Preparando la guía…');
+  const figs=await Promise.all(items.map(figDataUrl));
+  try{
+    const blob=new Blob([guiaHTML(items,titulo,figs)],{type:'text/html'});
+    const a=document.createElement('a'); a.href=URL.createObjectURL(blob);
+    a.download='guia-paes-'+new Date().toISOString().slice(0,10)+'.html';
+    document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+    toast('Guía descargada. Ábrela y usa Imprimir.');
+  }catch(e){ toast('No se pudo descargar la guía'); }
+}
+
+/* ---------- Eventos ---------- */
+document.addEventListener('click', ev=>{
+  const b=ev.target.closest('[data-act]'); if(!b||b.disabled) return;
+  const a=b.dataset.act;
+  if(a==='tab') irA(b.dataset.tab);
+  else if(a==='prueba'){ prog.focus.p=b.dataset.p; guardar(); renderPanel(); }
+  else if(a==='tema'){ const t=b.dataset.t, s=prog.focus.temas; prog.focus.temas = s.includes(t)? s.filter(x=>x!==t) : [...s,t]; guardar(); renderPanel(); }
+  else if(a==='limpiar'){ prog.focus.temas=[]; guardar(); renderPanel(); }
+  else if(a==='empezar'){ const c=recomendar(10); if(!c.length){ toast('No hay ejercicios para esos temas todavía'); return; } nuevaSesion(c); }
+  else if(a==='uno'){ const e=ejercicios.find(x=>x.id===b.dataset.id); if(e) nuevaSesion([{e,razon:''}]); }
+  else if(a==='alt'){
+    if(!sesion) return; const {cola,i,resp}=sesion; if(resp[i]) return;
+    const e=cola[i].e, elegida=+b.dataset.o, ok=elegida===e.correcta;
+    resp[i]={elegida,ok};
+    const s=prog.stats[e.tema]||{a:0,c:0}; prog.stats[e.tema]={a:s.a+1,c:s.c+(ok?1:0)};
+    const h=prog.ej[e.id]; prog.ej[e.id]={n:(h?.n||0)+1, ok, ts:Date.now()};
+    prog.hist=[{e:e.id,t:e.tema,ok,ts:Date.now()},...prog.hist].slice(0,60);
+    guardar(); renderPractica();
+  }
+  else if(a==='cambiar-perfil'){ editandoPerfil=true; renderWho(); }
+  else if(a==='cancelar-perfil'){ editandoPerfil=false; renderWho(); }
+  else if(a==='sig'){ sesion.i++; renderPractica(); window.scrollTo({top:0}); }
+  else if(a==='descargar'){ descargar(recomendar(12).map(x=>x.e), 'Guía PAES personalizada'); }
+  else if(a==='descargar-banco'){
+    descargar(listaBanco(), filtro.t!=='todos'?'Guía PAES · '+(TEMA[filtro.t]?.nom||''):(filtro.g!=='todas'?filtro.g:'Guía PAES'));
+  }
+});
+document.addEventListener('submit', ev=>{
+  if(ev.target.id!=='f-perfil') return; ev.preventDefault();
+  const nombre=($('#nuevo-perfil')?.value||'').trim(), sel=$('#sel-perfil')?.value||'';
+  if(nombre){ const ex=perfiles.lista.find(p=>p.nombre.toLowerCase()===nombre.toLowerCase());
+    if(ex) return entrarPerfil(ex.id);
+    const id='p'+Date.now().toString(36); perfiles.lista.push({id,nombre}); return entrarPerfil(id); }
+  if(sel) return entrarPerfil(sel);
+  toast('Escribe tu nombre o elige una persona');
+});
+document.addEventListener('change', ev=>{
+  if(ev.target.id==='sel-perfil' && ev.target.value){ entrarPerfil(ev.target.value); return; }
+  if(ev.target.id==='f-p'){ filtro.p=ev.target.value; filtro.t='todos'; renderBanco(); }
+  if(ev.target.id==='f-t'){ filtro.t=ev.target.value; renderBanco(); }
+  if(ev.target.id==='f-g'){ filtro.g=ev.target.value; renderBanco(); }
+});
+
+/* ---------- Arranque ---------- */
+renderAll();
+fetch('data/ejercicios.json').then(r=>r.json()).then(d=>{ ejercicios=d.filter(e=>e.enunciado&&Array.isArray(e.alternativas)); })
+  .catch(()=>{}).finally(()=>{ cargandoEj=false; renderAll(); });
+</script>
+
+</body>
+</html>
